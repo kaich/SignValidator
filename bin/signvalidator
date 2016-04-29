@@ -1,0 +1,3 @@
+require "signvalidator"
+
+SignValidator::run 
