@@ -41,7 +41,7 @@ module SignValidator
      end
 
      #get p12 cert data
-     isok = system "openssl pkcs12 -in #{@options[:cert]}  -clcerts -nokeys -out #{p12_temp_pem} -password #{@options[:password]}"
+     isok = system "openssl pkcs12 -in #{@options[:cert]}  -clcerts -nokeys -out #{p12_temp_pem} -passin pass:#{@options[:password]}"
 
      if !isok 
        puts "#{code}提取p12内容失败".colorize(:red)
