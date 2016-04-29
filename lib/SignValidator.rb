@@ -12,17 +12,22 @@ module SignValidator
        @options[:cert] = ""
        @options[:provision] = "" 
        @options[:udid] = "" 
+       @options[:password] = "123" 
 
        opts.on('-c cert','--cert p12_cert','用于签名的证书') do |value|
          @options[:cert] = value
        end
 
-      opts.on('-p provision', '--provision provision_path', '用于签名的配置文件') do |value| 
+      opts.on('-m mobileprovision', '--provision mobileprovision', '用于签名的配置文件') do |value| 
         @options[:provision] = value  
       end
 
       opts.on('-u udid', '--udid device_udid', '用于检测配置文件是否匹配该设备') do |value| 
         @options[:udid] = value  
+      end
+
+      opts.on('-p password', '--password p12_password', 'p12密码') do |value| 
+        @options[:password] = value  
       end
      end.parse!
 
@@ -36,7 +41,7 @@ module SignValidator
      end
 
      #get p12 cert data
-     isok = system "openssl pkcs12 -in #{@options[:cert]}  -clcerts -nokeys -out #{p12_temp_pem}"
+     isok = system "openssl pkcs12 -in #{@options[:cert]}  -clcerts -nokeys -out #{p12_temp_pem} -password #{@options[:password]}"
 
      if !isok 
        puts "#{code}提取p12内容失败".colorize(:red)
